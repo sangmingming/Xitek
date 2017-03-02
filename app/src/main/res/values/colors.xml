@@ -11,5 +11,7 @@
     <color name="base_gray90">#E6E6E6</color>
     <color name="base_gray96">#F5F5F5</color>
 
+    <color name="transparent">#00000000</color>
+
 
 </resources>

@@ -3,8 +3,14 @@ package me.isming.xitek.bbs.ui;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.TextUtils;
+import android.text.style.BackgroundColorSpan;
+import android.text.style.TextAppearanceSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +25,7 @@ import java.util.List;
 import me.isming.xitek.bbs.R;
 import me.isming.xitek.bbs.model.ApiClient;
 import me.isming.xitek.bbs.model.bean.ThreadItem;
+import me.isming.xitek.bbs.util.Forums;
 import me.isming.xitek.bbs.util.TimeUtils;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
@@ -69,7 +76,7 @@ public class ThreadListFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         mRecyclerView = (XRecyclerView) view.findViewById(android.R.id.list);
         mData = new ArrayList<>();
-        mRecyclerView.setAdapter(new Adapter(mData));
+        mRecyclerView.setAdapter(new Adapter(mData, showForumName));
         mRecyclerView.setLoadingMoreEnabled(true);
         mRecyclerView.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
@@ -83,6 +90,9 @@ public class ThreadListFragment extends Fragment {
                 loadData();
             }
         });
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
+        dividerItemDecoration.setDrawable(getResources().getDrawable(R.drawable.item_divider));
+        mRecyclerView.addItemDecoration(dividerItemDecoration);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.refresh();
     }
@@ -115,9 +125,11 @@ public class ThreadListFragment extends Fragment {
     public static class Adapter extends RecyclerView.Adapter<Adapter.Holder> {
 
         public List<ThreadItem> mDatas;
+        public boolean mShowForumName;
 
-        public Adapter(List<ThreadItem> items) {
+        public Adapter(List<ThreadItem> items, boolean showForumName) {
             mDatas = items == null ? new ArrayList<ThreadItem>() : items;
+            mShowForumName = showForumName;
         }
 
         @Override
@@ -129,6 +141,9 @@ public class ThreadListFragment extends Fragment {
         @Override
         public void onBindViewHolder(Adapter.Holder holder, int position) {
             ThreadItem item = mDatas.get(position);
+            if (!mShowForumName) {
+                item.forumid = -1;
+            }
             holder.updateView(item);
 
         }
@@ -159,7 +174,19 @@ public class ThreadListFragment extends Fragment {
             }
 
             public void updateView(ThreadItem item) {
-                titleView.setText(item.title);
+                String forumName = Forums.getForumName(item.forumid);
+                SpannableStringBuilder builder = new SpannableStringBuilder();
+                if (item.elite == 1) {
+                    builder.append("精选");
+                    //builder.setSpan(new TextAppearanceSpan(titleView.getContext(), R.style.TextWhite), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    //builder.setSpan(new BackgroundColorSpan(titleView.getContext().getResources().getColor(R.color.colorAccent)), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                }
+                if (!TextUtils.isEmpty(forumName)) {
+                    builder.append("【"+forumName+"】");
+                }
+                builder.append(item.title);
+                titleView.setText(builder);
+
                 authorView.setText(item.postusername);
                 timeView.setText(TimeUtils.timeFormat(item.dateline));
                 commentCountView.setText(item.replycount);

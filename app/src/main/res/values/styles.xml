@@ -27,4 +27,9 @@
         <item name="android:textColor">@color/base_gray60</item>
     </style>
 
+    <style name="TextWhite">
+        <item name="android:textSize">@dimen/text_size_body</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
 </resources>
