@@ -25,10 +25,10 @@ import java.util.List;
 import me.isming.xitek.bbs.R;
 import me.isming.xitek.bbs.model.ApiClient;
 import me.isming.xitek.bbs.model.bean.ThreadItem;
+import me.isming.xitek.bbs.util.CommonSubscriber;
 import me.isming.xitek.bbs.util.Forums;
 import me.isming.xitek.bbs.util.TimeUtils;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 
 /**
  * Created by sam on 17/3/2.
@@ -101,9 +101,10 @@ public class ThreadListFragment extends Fragment {
         ApiClient.getApiServices()
                 .getThreadList(fid, mCurrentPage, "", "", "1.32")
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnNext(new Action1<List<ThreadItem>>() {
+                .subscribe(new CommonSubscriber<List<ThreadItem>>() {
                     @Override
-                    public void call(List<ThreadItem> threadItems) {
+                    public void onNext(List<ThreadItem> threadItems) {
+                        super.onNext(threadItems);
                         mRecyclerView.loadMoreComplete();
                         if (threadItems != null && threadItems.size() > 0) {
                             if (mCurrentPage == 0) {
@@ -116,9 +117,8 @@ public class ThreadListFragment extends Fragment {
                             mCurrentPage++;
                         }
                     }
-                })
-                .doOnError(null)
-                .subscribe();
+                });
+
     }
 
 
@@ -173,7 +173,7 @@ public class ThreadListFragment extends Fragment {
 
             }
 
-            public void updateView(ThreadItem item) {
+            public void updateView(final ThreadItem item) {
                 String forumName = Forums.getForumName(item.forumid);
                 SpannableStringBuilder builder = new SpannableStringBuilder();
                 if (item.elite == 1) {
@@ -191,6 +191,12 @@ public class ThreadListFragment extends Fragment {
                 timeView.setText(TimeUtils.timeFormat(item.dateline));
                 commentCountView.setText(item.replycount);
                 readCountView.setText(item.views);
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        ThreadActivity.show(view.getContext(), item);
+                    }
+                });
             }
         }
 
