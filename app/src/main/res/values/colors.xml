@@ -14,6 +14,8 @@
     <color name="transparent">#00000000</color>
 
     <color name="darkgrey">#ff2d2d2d</color>
+    <color name="darkgreyborder">#ff919191</color>
+    <color name="lightgrey">#ffe2e2e2</color>
 
 
 </resources>

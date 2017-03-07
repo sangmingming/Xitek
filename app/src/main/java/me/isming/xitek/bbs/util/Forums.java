@@ -1,7 +1,18 @@
 package me.isming.xitek.bbs.util;
 
+import android.content.Context;
 import android.util.SparseArray;
 import android.util.SparseIntArray;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
+
+import me.isming.xitek.bbs.R;
+import me.isming.xitek.bbs.model.bean.BoardEntity;
 
 /**
  * Created by sam on 17/3/2.
@@ -9,6 +20,7 @@ import android.util.SparseIntArray;
 public class Forums {
 
     public static SparseArray<String> sForums = new SparseArray<>(100);
+    public static List<BoardEntity> sBoards;
 
     static {
         sForums.put(2, "摄影大家坛");
@@ -66,6 +78,24 @@ public class Forums {
         return sForums.get(id);
     }
 
+
+    public static synchronized List<BoardEntity> getBoardEntity(Context context) {
+        if (sBoards != null && sBoards.size() > 0) {
+            return sBoards;
+        }
+        InputStream stream = context.getResources().openRawResource(R.raw.board);
+        try {
+            byte[] bytes = new byte[stream.available()];
+            stream.read(bytes);
+            Gson gson = new Gson();
+            sBoards = gson.fromJson(new String(bytes), new TypeToken<List<BoardEntity>>(){}.getType());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            return sBoards;
+        }
+
+    }
 
 
 }

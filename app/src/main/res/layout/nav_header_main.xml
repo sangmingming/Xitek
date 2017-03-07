@@ -11,24 +11,31 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <ImageView
-        android:id="@+id/imageView"
+    <RelativeLayout android:gravity="center_vertical" android:id="@+id/nav_header_container"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:src="@android:drawable/sym_def_app_icon"/>
+        android:layout_height="wrap_content">
+        <Button android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:id="@+id/btn_login"
+            android:background="@drawable/bg_transparent"
+            android:paddingLeft="15.0dip"
+            android:paddingRight="15.0dip"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:text="登录"
+            android:drawableLeft="@drawable/ic_user"
+            android:drawablePadding="8.0dip" />
+        <Button android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:id="@+id/btn_checkin"
+            android:background="@drawable/bg_transparent"
+            android:paddingLeft="15.0dip"
+            android:paddingRight="15.0dip"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:text="签到"
+            android:layout_alignParentRight="true" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:text="Android Studio"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+    </RelativeLayout>
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="android.studio@android.com"/>
 
 </LinearLayout>

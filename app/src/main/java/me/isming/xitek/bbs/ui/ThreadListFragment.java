@@ -43,6 +43,7 @@ public class ThreadListFragment extends Fragment {
     private XRecyclerView mRecyclerView;
     private List<ThreadItem> mData;
     private int mCurrentPage;
+    private Adapter mAdapter;
 
     public static ThreadListFragment newInstance(String fid, boolean showForumName) {
         ThreadListFragment listFragment = new ThreadListFragment();
@@ -51,6 +52,20 @@ public class ThreadListFragment extends Fragment {
         bundle.putBoolean(EXTRA_SHOW_FORUMNAME, showForumName);
         listFragment.setArguments(bundle);
         return listFragment;
+    }
+
+    public void reset(String fid, boolean showForumName) {
+        if (getArguments() != null) {
+            getArguments().putString(EXTRA_FID, fid);
+            getArguments().putBoolean(EXTRA_SHOW_FORUMNAME, showForumName);
+        }
+        this.fid = fid;
+        this.showForumName = showForumName;
+        if (mAdapter != null) {
+            mAdapter.setShowForumName(this.showForumName);
+        }
+        mRecyclerView.refresh();
+
     }
 
     public static ThreadListFragment newInstance(String fid) {
@@ -76,7 +91,8 @@ public class ThreadListFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         mRecyclerView = (XRecyclerView) view.findViewById(android.R.id.list);
         mData = new ArrayList<>();
-        mRecyclerView.setAdapter(new Adapter(mData, showForumName));
+        mAdapter = new Adapter(mData, showForumName);
+        mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLoadingMoreEnabled(true);
         mRecyclerView.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
@@ -130,6 +146,11 @@ public class ThreadListFragment extends Fragment {
         public Adapter(List<ThreadItem> items, boolean showForumName) {
             mDatas = items == null ? new ArrayList<ThreadItem>() : items;
             mShowForumName = showForumName;
+        }
+
+        public void setShowForumName(boolean showForumName) {
+            this.mShowForumName = showForumName;
+            notifyDataSetChanged();
         }
 
         @Override

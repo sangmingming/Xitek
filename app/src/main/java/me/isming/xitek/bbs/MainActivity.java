@@ -13,10 +13,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import me.isming.xitek.bbs.model.bean.BoardEntity;
+import me.isming.xitek.bbs.ui.NaviFragment;
 import me.isming.xitek.bbs.ui.ThreadListFragment;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NaviFragment.NaviCallback {
+
+    private ThreadListFragment mFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,13 +44,12 @@ public class MainActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        setTitle("最新发表主题");
 
-        ThreadListFragment fragment = ThreadListFragment.newInstance("lt", true);
+        mFragment = ThreadListFragment.newInstance("lt", true);
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.content_main, fragment, "lt")
+                .add(R.id.content_main, mFragment, "lt")
                 .commit();
     }
 
@@ -82,28 +85,20 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
+
+
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+    public void onSelectForum(BoardEntity.BoardItem item) {
+        setTitle(item.label);
+        if (mFragment != null) {
+            mFragment.reset(item.fid, false);
         }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
-        return true;
+    }
+
+    @Override
+    public void onLogin() {
+
     }
 }
