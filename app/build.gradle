@@ -43,5 +43,7 @@ dependencies {
     compile 'com.tencent.bugly:nativecrashreport:latest.release'
     compile 'com.jcodecraeer:xrecyclerview:1.3.2'
 
+    compile 'com.github.chrisbanes:PhotoView:1.3.1'
+
 
 }

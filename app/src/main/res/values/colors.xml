@@ -13,5 +13,7 @@
 
     <color name="transparent">#00000000</color>
 
+    <color name="darkgrey">#ff2d2d2d</color>
+
 
 </resources>

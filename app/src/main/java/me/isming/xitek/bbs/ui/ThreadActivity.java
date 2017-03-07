@@ -15,6 +15,7 @@ import android.text.Html;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -30,6 +31,7 @@ import me.isming.xitek.bbs.model.ApiClient;
 import me.isming.xitek.bbs.model.bean.PostItem;
 import me.isming.xitek.bbs.model.bean.ThreadItem;
 import me.isming.xitek.bbs.util.CommonSubscriber;
+import me.isming.xitek.bbs.util.HtmlUtil;
 import me.isming.xitek.bbs.util.StringUtils;
 import me.isming.xitek.bbs.util.TimeUtils;
 import rx.android.schedulers.AndroidSchedulers;
@@ -75,6 +77,16 @@ public class ThreadActivity extends AppCompatActivity implements XRecyclerView.L
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(new Adapter(mDatas));
         mRecyclerView.refresh();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -168,10 +180,7 @@ public class ThreadActivity extends AppCompatActivity implements XRecyclerView.L
                 if (!TextUtils.isEmpty(item.exif)) {
                     s = s + "<br/><font color='grey'>" + item.exif + "</font>";
                 }
-                contentView.setText(Html.fromHtml(s,
-                        new GlideImageGetter(contentView.getContext(), contentView),
-                        null));
-                contentView.setMovementMethod(LinkMovementMethod.getInstance());
+                HtmlUtil.setHtml(contentView, s);
             }
         }
     }

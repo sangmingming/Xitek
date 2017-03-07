@@ -44,7 +44,11 @@
         <activity
             android:name=".ui.ThreadActivity"
             android:label="@string/title_activity_thread"
-            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
+            android:name=".ui.PhotoViewActivity"
+            android:label="@string/title_activity_photo_view"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
     </application>
