@@ -37,7 +37,7 @@ public class StringUtils {
         localLinkedHashMap.put("\\[email=(.+?)\\](.+?)\\[/email\\]", "<a href=mailto:$1>$2</a>");
         localLinkedHashMap.put("\\[url\\](.+?)\\[/url\\]", "<a href=$1>$1</a>");
         localLinkedHashMap.put("\\[url=(.+?)\\](.+?)\\[/url\\]", "<a href=$1>$2</a>");
-        localLinkedHashMap.put("\\[quote\\](.+?)\\[/quote\\]", "<blockquote>$1</blockquote>\n");
+        //localLinkedHashMap.put("\\[quote\\](.+?)\\[/quote\\]", "<blockquote>$1</blockquote>\n");
         localLinkedHashMap.put(":\\)", "<img src=\"/static/image/smiley/xitek/smile.gif\"/>");
         localLinkedHashMap.put(":\\(", "<img src=\"/static/image/smiley/xitek/frown.gif\"/>");
         localLinkedHashMap.put(":o", "<img src=\"/static/image/smiley/xitek/redface.gif\"/>");
@@ -95,6 +95,7 @@ public class StringUtils {
         localLinkedHashMap.put("\r", "");
         localLinkedHashMap.put("\n{2,}", "<br/><br/>");
         localLinkedHashMap.put("\n", "<br/>");
+        localLinkedHashMap.put("\\[quote\\](.+?)\\[/quote\\]", "<blockquote>$1</blockquote>\n");
     }
 
     public static String bbcode(String content) {

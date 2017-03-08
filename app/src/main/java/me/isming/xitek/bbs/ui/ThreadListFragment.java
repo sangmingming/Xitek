@@ -199,8 +199,8 @@ public class ThreadListFragment extends Fragment {
                 SpannableStringBuilder builder = new SpannableStringBuilder();
                 if (item.elite == 1) {
                     builder.append("精选");
-                    //builder.setSpan(new TextAppearanceSpan(titleView.getContext(), R.style.TextWhite), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    //builder.setSpan(new BackgroundColorSpan(titleView.getContext().getResources().getColor(R.color.colorAccent)), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    builder.setSpan(new TextAppearanceSpan(titleView.getContext(), R.style.TextWhite), 0, 2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    builder.setSpan(new BackgroundColorSpan(titleView.getContext().getResources().getColor(R.color.colorAccent)), 0, 2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 }
                 if (!TextUtils.isEmpty(forumName)) {
                     builder.append("【"+forumName+"】");

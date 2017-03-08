@@ -21,6 +21,7 @@ public class PostItem {
     public String getPositionText() {
         switch (step) {
             case 0:
+            case 1:
                 return "楼主";
             default:
                 return step + "#";
